@@ -14,6 +14,13 @@ hs_err_pid*
 # eclipse
 .classpath
 .project
+.settings
+.factorypath
 
 # maven
 target/
+
+# slim3
+*Meta.java
+
+*/src/main/webapp/WEB-INF/classes/logging.properties

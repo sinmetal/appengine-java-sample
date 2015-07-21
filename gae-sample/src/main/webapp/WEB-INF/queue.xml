@@ -1,0 +1,21 @@
+<queue-entries>
+	<queue>
+		<name>default</name>
+		<rate>10/s</rate>
+	</queue>
+	<queue>
+		<name>slim3-gtx-queue</name>
+		<rate>10/s</rate>
+		<bucket-size>10</bucket-size>
+	</queue>
+	<queue>
+		<name>pull-queue</name>
+		<mode>pull</mode>
+		<acl>
+			<user-email>shingo.ishimura@topgate.co.jp</user-email>
+			<user-email>800106096694-compute@developer.gserviceaccount.com</user-email>
+			<writer-email>shingo.ishimura@topgate.co.jp</writer-email>
+			<writer-email>800106096694-compute@developer.gserviceaccount.com</writer-email>
+		</acl>
+	</queue>
+</queue-entries>

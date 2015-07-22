@@ -1,0 +1,5 @@
+/.apt_generated/
+
+/src/main/webapp/WEB-INF/appengine-generated/local_db.bin
+/src/main/webapp/WEB-INF/appengine-generated/local_search.bin
+/src/main/webapp/WEB-INF/appengine-generated/indexes/*

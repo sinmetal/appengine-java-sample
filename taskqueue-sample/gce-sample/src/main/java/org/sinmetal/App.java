@@ -26,13 +26,7 @@ public class App {
 	static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
 	enum Operation {
-		INSERT("insert"), LEASE("lease");
-
-		String value;
-
-		Operation(String value) {
-			this.value = value;
-		}
+		INSERT, LEASE;
 	}
 
 	public static void main(String[] args) {

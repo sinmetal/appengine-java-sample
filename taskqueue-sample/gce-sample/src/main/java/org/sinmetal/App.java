@@ -96,33 +96,46 @@ public class App {
 		TaskQueue queue = getQueue(taskqueue);
 		System.out.println(queue);
 
-		Tasks leaseTasks = taskqueue.tasks()
-				.lease(PROJECT_NAME, QUEUE_NAME, 3, 60 * 3).execute();
-		List<Task> tasks = leaseTasks.getItems();
-		if (tasks == null) {
-			System.out.println("task nothing.");
-			return;
-		}
-		for (final Task task : tasks) {
-			byte[] decodeBase64 = Base64.decodeBase64(task.getPayloadBase64());
-			System.out.println(new String(decodeBase64));
+		Random random = new Random();
 
-			// task processing
-
-			retry(new Runnable() {
-
-				@Override
-				public void run() {
-					try {
-						taskqueue.tasks()
-								.delete(PROJECT_NAME, QUEUE_NAME, task.getId())
-								.execute();
-					} catch (IOException e) {
-						throw new RuntimeException(e);
-					}
-					System.out.println(task.getId() + " done.");
+		while (true) {
+			Tasks leaseTasks = taskqueue.tasks()
+					.lease(PROJECT_NAME, QUEUE_NAME, 3, 60 * 3).execute();
+			List<Task> tasks = leaseTasks.getItems();
+			if (tasks == null) {
+				System.out.println("task nothing.");
+				try {
+					Thread.sleep(3000 + 1000 * random.nextInt(10));
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
-			}, 10);
+				continue;
+			}
+			for (final Task task : tasks) {
+				byte[] decodeBase64 = Base64.decodeBase64(task
+						.getPayloadBase64());
+				String payload = new String(decodeBase64);
+				payload = payload.replaceAll("\n", "");
+				System.out.println("{\"__SAMPLE__\":" + payload + "}");
+
+				// task processing
+
+				retry(new Runnable() {
+
+					@Override
+					public void run() {
+						try {
+							taskqueue
+									.tasks()
+									.delete(PROJECT_NAME, QUEUE_NAME,
+											task.getId()).execute();
+						} catch (IOException e) {
+							throw new RuntimeException(e);
+						}
+						System.out.println(task.getId() + " done.");
+					}
+				}, 10);
+			}
 		}
 	}
 
